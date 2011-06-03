@@ -1,0 +1,38 @@
+#!/bin/bash
+
+if [ $# -ne 1 ]
+then
+  echo "requere del archivo para poder ejecutar"
+  exit $E_BADARGS
+fi
+
+rm -f /tmp/markdown.html
+
+markdown $1 >> /tmp/markdown.html
+
+TITLE=`cat /tmp/markdown.html | grep -Eo "<h1>.*</h1>" | head -1 | sed -r  "s/<h1>(.*)<\/h1>/\1/"`
+USER=`eval whoami`
+
+rm -f /tmp/markdown.html
+
+echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>' > /tmp/markdown.html
+
+echo "<title>$TITLE</title>" >>  /tmp/markdown.html
+
+echo "<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />
+	<link rel=\"stylesheet\" type=\"text/css\" href=\"/home/$USER/.config/css/style.css\" />
+</head>
+<body>
+<div id='content'>
+" >> /tmp/markdown.html
+
+
+markdown $1 >> /tmp/markdown.html
+echo '</div>
+</body>
+</html>'  >> /tmp/markdown.html
+
+gnome-open /tmp/markdown.html &
