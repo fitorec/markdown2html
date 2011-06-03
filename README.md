@@ -1,31 +1,17 @@
-#Agregando funcionalidad al nautilus.
+Markdown to HTML - Markdown2html
+==========================================================================================
 
-Necesitamos descargar:
+**Markdown2html**: Es una herramienta para visualizar desde nuestro navegador documentos en formato **markdown**.
 
+No es un sustituto de **ikiwiki** ni de **pandoc** ya que estos son paquetes para generar contenidos más extensos como mantener un sitio o alguna documentación.
 
-Para hacer agregar una funcionalidad en el nautilus lo unico que tenemos que hacer es lo siguiente:
+Mas bien es un complemento que te permite _compilar_ el archivo con un simple doble click.
 
-	if [ $# -ne 1 ]
-	then
-	  echo "requere del archivo para poder ejecutar"
-	  exit $E_BADARGS
-	fi
+Requiere
+---------------------------------------
+**Markdown2html** No es una aplicacion monolitica, esta diseñado para funcionar en entornos Linux con **gnome** y requiere del paquete **markdown**.
 
-	rm -f /tmp/markdown.html
+ - Linux o ejecución de Bash.
+ - gnome 
+ - paquete Markdown(pensando en cambiar a _pandoc_ como base en futuras versiones).
 
-	echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-	<head>
-		<title>markdown file</title>
-		<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-		<link rel="stylesheet" type="text/css" href="/home/fitorec/.config/css/chrome/userContent.css" />
-	</head>
-	<body>	
-	' > /tmp/markdown.html
-
-	markdown $1 >> /tmp/markdown.html
-	echo '</body>'  >> /tmp/markdown.html
-	echo '</html>'  >> /tmp/markdown.html
-
-	firefox /tmp/markdown.html &
